@@ -2,13 +2,13 @@ pipeline {
   agent {
     docker {
       image "bryandollery/terraform-packer-aws-alpine"
-      args "-u root"
+      args "-u root --entrypoint='' rm"
     }
   }
   environment {
     CREDS = credentials('Alhanouf-aws-creds')
-    AWS_ACCESS_KEY_ID = "$CREDS_USR"
-    AWS_SECRET_ACCESS_KEY = "$CREDS_PSW"
+    AWS_ACCESS_KEY_ID = "${CREDS_USR}"
+    AWS_SECRET_ACCESS_KEY = "${CREDS_PSW}"
     OWNER = 'alhanouf'
     PROJECT_NAME = 'web-server'
   } 
@@ -18,5 +18,11 @@ pipeline {
         sh 'packer build packer.json'
       }
     }
+  }
+  post {
+    success {
+        build quietPeriod:0,wait:false, job:'jenkins-lab-2-tf'
+    }
+
   }
 }
