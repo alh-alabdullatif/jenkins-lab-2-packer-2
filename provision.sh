@@ -1,7 +1,7 @@
 #!/bin/bash
 # Install docker
 
-sudo apt update -y && sudo apt install -y docker.io
+curl -Ls get.docker.com | sh
 sudo usermod -aG docker ubuntu
 
 # Create directory to be served
@@ -25,7 +25,7 @@ ExecStart=sudo docker container run -d --name nginx -p 80:80 --restart=always -v
 WantedBy=multi-user.target
 EOF
 
-sudo chmod a+r /etc/systemd/system/webserver.service
+sudo chmod a-xw /etc/systemd/system/webserver.service
 sudo systemctl daemon-reload
 sudo systemctl enable webserver
 sudo systemctl start webserver
