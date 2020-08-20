@@ -12,6 +12,7 @@ pipeline {
     OWNER = 'alhanouf'
     PROJECT_NAME = 'web-server'
   } 
+
   stages {
     stage("build") {
       steps {
@@ -23,6 +24,5 @@ pipeline {
     success {
         build quietPeriod:0,wait:false, job:'Alhanouf-Terraform'
     }
-
   }
 }
